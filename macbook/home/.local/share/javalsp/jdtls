@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Script to run the Eclipse JDT Language Server Project.
+# Intended to be used inside Neovim's init.vim to configure the plugin, LanguageClient-neovim
+# See https://www.eclipse.org/community/eclipse_newsletter/2017/may/article4.php
+# and https://github.com/autozimu/LanguageClient-neovim/wiki/Java
+
+SERVER=~/.local/share/javalsp
+#JAVA_HOME=$JAVA_8_HOME
+JAVA_HOME=$CORRETTO_11_HOME
+
+#$JAVA_HOME/bin/java -version
+
+$JAVA_HOME/bin/java \
+    -Declipse.application=org.eclipse.jdt.ls.core.id1 \
+    -Dosgi.bundles.defaultStartLevel=4 \
+    -Declipse.product=org.eclipse.jdt.ls.core.product \
+    -Dlog.protocol=true \
+    -Dlog.level=ERROR \
+    -noverify -Xmx1G -XX:+UseG1GC -XX:+UseStringDeduplication \
+    -jar $SERVER/plugins/org.eclipse.equinox.launcher_1.6.0.v20200915-1508.jar \
+    -configuration $SERVER/config_mac \
+    "$@"
+
