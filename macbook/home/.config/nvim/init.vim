@@ -16,10 +16,10 @@ Plug 'tpope/vim-repeat'                 " adds support of . vim command to plugi
 Plug 'git://github.com/jiangmiao/auto-pairs.git'
 Plug 'editorconfig/editorconfig-vim'    " adds support for .editorconfig files
 Plug 'itchyny/lightline.vim'
-Plug 'severin-lemaignan/vim-minimap'
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'severin-lemaignan/vim-minimap'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -150,6 +150,9 @@ nnoremap [q :cprevious<CR>
 nnoremap [Q :cfirst<CR>
 nnoremap ]Q :clast<CR>
 
+" Fuzzy find on FZF Buffers
+nnoremap <Leader>b :Buffers<CR>
+
 " Location list commands
 nnoremap ]l :lnext<CR>
 nnoremap [l :lprevious<CR>
@@ -158,9 +161,6 @@ nnoremap ]L :llast<CR>
 
 " Fuzzy find with fzf.
 nnoremap <C-p> :FZF<CR>
-
-" Fuzzy find on FZF Buffers
-nnoremap <Leader>p :Buffers<CR>
 
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
@@ -308,11 +308,13 @@ set signcolumn=yes
 "
 
 let g:LanguageClient_serverCommands = {
-    \ 'java': ['~/.local/bin/jdtls', '-data', '~/.local/.cache/javalsp/']
+    \ 'java': ['~/.local/bin/jdtls', '-data', '~/.local/.cache/javalsp/'],
+    \ 'python': ['pyls']
     \ }
 
 let g:LanguageClient_rootMarkers = {
-    \ 'java': ['.git']
+    \ 'java': ['.git'],
+    \ 'python': ['.git']
     \ }
 
 let g:LanguageClient_loadSettings = 1
@@ -372,7 +374,7 @@ endfunction
 
 augroup LSP
   autocmd!
-  autocmd FileType java call LC_plug_maps()
+  autocmd FileType java,python call LC_plug_maps()
 augroup END
 
 "To use the language server with Vim's formatting operator |gq|:

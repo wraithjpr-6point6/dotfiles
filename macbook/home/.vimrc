@@ -19,6 +19,11 @@ Plug 'editorconfig/editorconfig-vim'    " adds support for .editorconfig files
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" If you don't have nodejs and yarn
+" use pre build, add 'vim-plug' to the filetype list so vim-plug can update this plugin
+" see: https://github.com/iamcco/markdown-preview.nvim/issues/50
+"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown'}
 
 call plug#end()
 
@@ -121,6 +126,9 @@ nnoremap [b :bprevious<CR>
 nnoremap [B :bfirst<CR>
 nnoremap ]B :blast<CR>
 
+" Fuzzy find on FZF Buffers
+nnoremap <Leader>b :Buffers<CR>
+
 " Quickfix list commands
 nnoremap ]q :cnext<CR>
 nnoremap [q :cprevious<CR>
@@ -135,9 +143,6 @@ nnoremap ]L :llast<CR>
 
 " Fuzzy find with fzf.
 nnoremap <C-p> :FZF<CR>
-
-" Fuzzy find on FZF Buffers
-nnoremap <Leader>p :Buffers<CR>
 
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
@@ -213,4 +218,28 @@ let g:lightline = { 'colorscheme': 'PaperColor' }
 
 set laststatus=2                    " always show the status lines
 set noshowmode                      " the info is now shown in the statusline, so no need to see it again.
+
+" -----------------------------------------------------------------------------
+" markdown-preview config
+" See https://github.com/iamcco/markdown-preview.nvim
+" -----------------------------------------------------------------------------
+
+" set to 1, nvim will open the preview window after entering the markdown buffer
+" default: 0
+let g:mkdp_auto_start = 0
+
+" set to 1, the nvim will auto close current preview window when change
+" from markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 0
+
+" set to 1, the vim will refresh markdown when save the buffer or
+" leave from insert mode, default 0 is auto refresh markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 0
+
+" specify browser to open preview page
+" default: ''
+let g:mkdp_browser = ''
 
